@@ -1,0 +1,64 @@
+
+Consider this code, what should be the minimum capacity of a cache so that no cache line is loaded more than once from memory?
+
+double tmp = 0;
+for (int i = 0; i < 32; i++) {
+    for (int j = 0; j < 64; j++) {
+        tmp += A[j][i]
+
+Poor way to run thorugh matrix in C, as its columnwise instead of rowwise.
+
+Memory Layout and Access Pattern
+Array Size and Storage:
+
+Assume A is a double array of size 
+64
+×
+32
+64×32.
+Each double is 8 bytes.
+A row of A is 
+32
+×
+8
+=
+256
+32×8=256 bytes long.
+A cache line is 64 bytes, meaning each row is split across 4 cache lines.
+Loop Iteration and Access Order:
+
+The outer loop iterates over i (columns).
+The inner loop iterates over j (rows).
+This results in column-major access (A[j][i]), meaning:
+We access one element per row, then move to the next row.
+This leads to strided memory access across different cache lines.
+Cache Line Usage
+Since each row is 256 bytes long, accessing different rows means jumping to different cache lines.
+A column of 64 elements spans across all 64 rows.
+Each element occupies 8 bytes, and a cache line holds 64 bytes.
+Since 8 elements (8×8 = 64 bytes) fit in a single cache line, each row contributes exactly one cache line per column.
+Therefore, accessing one full column touches 64 different cache lines.
+Minimum Cache Size Calculation
+For optimal performance, we must keep all 64 cache lines needed for a full column in cache.
+
+Each cache line is 64 bytes, so the required cache size is:
+
+64
+×
+64
+=
+4096
+ bytes
+
+
+----------------------------------------------------------------
+
+
+Goals:
+- Bandwidth and peak floationg poit operations
+
+
+How to reduce memory traffic for small cache?
+- Unroll then collapse.
+- This way we no longer have to load B vector N**2 times.
+- 
