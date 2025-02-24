@@ -12,9 +12,9 @@ int main() {
     */
 
     for (int i = 0; i<10; i++)
-        result += pow(-1, i) / pow(2, 2 * i);
+        result += pow(-1, i) / pow(2, 2 * i);̇
 
     printf("Result: %f\n", result);
     printf("Target: %f\n", 4. / 5.);
     printf("Close enough?: %s\n", (result - 4./5. < 1e-12) ? "Yes it is close enough" : "No");
-}
+}̇
