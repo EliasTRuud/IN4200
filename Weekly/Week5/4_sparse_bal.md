@@ -35,6 +35,8 @@ N = number of cols and rows
 ( val + idx)    + row_ptr[i] + B[] +  C(load and stored N times)
 divided by 2*N_nz = FLOPS
 
+idx and row_ptr are ints.
+
 
 What is the “worst-case” code balance?
 - Only things that can change is B vector. If there is not enough space in the cache for B
