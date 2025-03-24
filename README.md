@@ -1,9 +1,11 @@
 # IN4200
 High-Performance Computing and Numerical Projects - 2025
 
+Run code, compile and run:
+gcc -o file file.c
 
 Run code with openmp:
-gcc-14 -fopenmp test.c -o test  # Use your GCC version
+gcc-13 -fopenmp test.c -o test  # Use your GCC version
 ./test #run file
 
 

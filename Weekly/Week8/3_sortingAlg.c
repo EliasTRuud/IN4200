@@ -19,6 +19,8 @@ void sort{int n, float *arr}{
 
     for (int i = 1; i<=n; i++){
         allSorted = true; //assume sorted then change to false if we find its not
+
+        if ()
     }
 }
 
