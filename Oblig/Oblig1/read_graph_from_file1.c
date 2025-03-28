@@ -1,9 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "funcs.h"
 
-void read_graph_from_file1(char *filename, int *N, double ***linkmatrix){
-    FILE *fp = fopen(filename,"r");
-    if (fp == NULL){
+double** createMatrix2D(int N) {
+    double **matrix = malloc(N * sizeof(double *));
+    if (matrix == NULL) {
+        perror("malloc failed");
+        exit(1);
+    }
+    for (int i = 0; i < N; i++) {
+        matrix[i] = malloc(N * sizeof(double));
+        if (matrix[i] == NULL) {
+            perror("malloc failed");
+            exit(1);
+        }
+        for (int j = 0; j < N; j++) {
+            matrix[i][j] = 0.0;
+        }
+    }
+    return matrix;
+}
+
+void printMatrix2D(double **matrix, int n) {
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            printf("%.2f ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void freeMatrix2D(double **matrix, int n) {
+    for (int i = 0; i < n; i++){
+        free(matrix[i]);
+    }
+    free(matrix);
+}
+
+
+int read_graph_from_file1(char *filename, int *N, double ***linkmatrix) {
+    FILE *fp = fopen(filename, "r");
+    if (fp == NULL) {
         printf("Could not open file\n");
         return 1;
     }
@@ -12,60 +49,70 @@ void read_graph_from_file1(char *filename, int *N, double ***linkmatrix){
     char title1[100];
     char line3[100];
     char line4[100];
-    int nodes;
-    int edges;
+    int nodes, edges;
 
-    //use fscan https://www.geeksforgeeks.org/c-program-to-read-contents-of-whole-file/ as reccomended for
-    // structured data files, use fgets for reading full text lines
-
-    //skip first line
+    // Skip first line
     fgets(line1, sizeof(line1), fp);
 
-    //read title
+    // Read title
     fgets(title1, sizeof(title1), fp);
 
-    //read line 3
+    // Read line 3 and extract nodes and edges.
     fgets(line3, sizeof(line3), fp);
-    printf("Read line: %s\n", line3);
-    // read nodes and edges, gpt help. As long as ssame format we can look for exact strings
-    if (sscanf(line3, "# Nodes: %d Edges: %d", &nodes, &edges) == 2) {
-        printf("Nodes: %d, Edges: %d\n", nodes, edges);
-    } else {
+    printf("Read line: %s", line3);
+    if (sscanf(line3, "# Nodes: %d Edges: %d", &nodes, &edges) != 2) {
         printf("Parsing failed.\n");
+        fclose(fp);
+        return 1;
+    }
+    printf("Nodes: %d, Edges: %d\n", nodes, edges);
+
+    // Skip line 4
+    fgets(line4, sizeof(line4), fp);
+
+    int *edgeArr = malloc(sizeof(int) * nodes);
+    for (int i = 0; i < nodes; i++) {
+        edgeArr[i] = 0;
     }
 
-    // skip line 4
-    fgets(line4, sizeof(line4), fp)
+    // Read the rest of the file, filling the matrix.
+    // length is edges and format is: int int
+    // add +1 to index [int][int] in linkmatrix array
 
-    //Create hyperlink matrix of dim nodes x nodes. Fill with zeros
-    double **linkMatrix = (double **)malloc(nodes * sizeof(double *));
-    for (int i = 0; i < nodes; i++) {
-        linkMatrix[i] = (double *)malloc(nodes * sizeof(double));
+    /*
+    Inbound links is added to the matrix, ignore self links.
+    Store in matrix and edge array which i keep track of total inbound links per column
+    0 1 --> matrix[0][1]
+
+    so i wanna add to position matrix[i][j] and edgeArr[j]
+    */
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        fscanf(fp, "%d %d", &u, &v);
+        //printf("Edge: %d %d\n", u, v);
+
+         // index is out of range, then skip
+        if (u < 0 || u >= nodes || v < 0 || v >= nodes) {
+            continue;
+        }
+        if (u == v) {
+            // skip self links
+            continue;
+        }
+        (*linkmatrix)[v][u] += 1;
+        edgeArr[u]++;
     }
-
-    for (int i = 0; i < nodes; i++) {
-        for (int j = 0; j < nodes; j++) {
-            linkMatrix[i][j] = 0.0;
+    fclose(fp); //close file
+    
+    // Divide by total amount of inbound links by column
+    for (int j = 0; j < nodes; j++) {
+        if (edgeArr[j] != 0) {  //division by zero.
+            for (int i = 0; i < nodes; i++) {
+                (*linkmatrix)[i][j] /= edgeArr[j];
+            }
         }
     }
 
-
-    // Read in entries of matrix.
-
-
-    
-
-    // free up the 2d matrix
-    for (i = 0; i < nodes; i++) {
-        free(linkMatrix[i]);
-    }
-    free(linkMatrix);  
-}
-
-int main()
-{
-    /* code */
-    char filename[] = "simple.txt";
-    read_graph_from_file1(filename);
+    free(edgeArr);
     return 0;
 }
