@@ -13,7 +13,8 @@ void freeMatrix2D(double **matrix, int n);
 
 double* createArray(int N);
 int* createArray_int(int N);
-
+void printArray(double *arr, int N);
+void printArray_int(int *arr, int N);
 
 
 #endif

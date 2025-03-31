@@ -60,8 +60,10 @@ int main(void) {
 
     read_graph_from_file2(filename, &N, &ptr_, &idx_, &vals);
 
-
-
+    printArray_int(ptr_, N);
+    printArray(vals, N);
+    printArray_int(idx_, N);
+    
 
 
     return 0;
