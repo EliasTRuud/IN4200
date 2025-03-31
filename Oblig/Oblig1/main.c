@@ -23,7 +23,7 @@ int main(void) {
         printf("Unknown file name: %s\n", filename);
         return 1;
     }
-    
+    /*
     // make linkmatrix
     double **linkmat  = createMatrix2D(N);
 
@@ -49,8 +49,16 @@ int main(void) {
     
     freeMatrix2D(linkmat, N);
     free(scores);
-    
-    return 0;
+
+    */
+
+    // Method 2: CRS method
+
+    int *ptr_ = createArray_int(N+1); //add +1
+    double *vals = createArray(N);
+    int *idx_ = createArray_int(N);
+
+    read_graph_from_file2(filename, &N, &ptr_, &idx_, &vals);
 
 
 

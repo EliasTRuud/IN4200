@@ -42,7 +42,7 @@ int read_graph_from_file1(char *filename, int *N, double ***linkmatrix) {
     FILE *fp = fopen(filename, "r");
     if (fp == NULL) {
         printf("Could not open file\n");
-        return 1;
+        exit(1);
     }
 
     char line1[200];
@@ -63,7 +63,7 @@ int read_graph_from_file1(char *filename, int *N, double ***linkmatrix) {
     if (sscanf(line3, "# Nodes: %d Edges: %d", &nodes, &edges) != 2) {
         printf("Parsing failed.\n");
         fclose(fp);
-        return 1;
+        exit(1);
     }
     printf("Nodes: %d, Edges: %d\n", nodes, edges);
 

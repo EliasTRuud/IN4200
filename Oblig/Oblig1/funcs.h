@@ -11,6 +11,9 @@ double** createMatrix2D(int N);
 void printMatrix2D(double **matrix, int n);
 void freeMatrix2D(double **matrix, int n);
 
+double* createArray(int N);
+int* createArray_int(int N);
+
 
 
 #endif
