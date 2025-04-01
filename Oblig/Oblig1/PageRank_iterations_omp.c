@@ -29,7 +29,7 @@ void PageRank_iterations2_omp(int N, int *row_ptr, int *col_idx, double *val, do
             x_new[i] = teleport + d * sum;
         }
 
-        // Compute maximum absolute difference between x_new and x_old with reduction
+        // Compute maximum absolute difference between x_new and x_old with reduction, where diff is the variable.
         diff = 0.0;
         #pragma omp parallel for reduction(max:diff)
         for (int i = 0; i < N; i++) {

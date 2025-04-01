@@ -9,6 +9,9 @@ int main(void) {
     //char filename[] = "100.txt";
     //char filename[] ="notredame.txt";
     int N;
+    int n = 6; //pages to print of top pages
+    double epsilon = 1e-6;
+    double d = 0.85;
 
 
     // set N depending on filename: https://www.w3schools.com/c/ref_string_strcmp.php , 0 if matches
@@ -33,9 +36,6 @@ int main(void) {
     //freeMatrix2D(linkmat, N);
 
     // Algorithm for dense matrix versionn
-    int n = 6; //pages to print of top pages
-    double epsilon = 1e-6;
-    double d = 0.85;
     double *scores = createArray(N);
     PageRank_iterations1(N, linkmat, d, epsilon, scores);
     

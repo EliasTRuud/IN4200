@@ -9,7 +9,9 @@ int main(void) {
     //char filename[] = "100.txt";
     char filename[] ="notredame.txt";
     int N;
-
+    double epsilon = 1e-6;
+    double d = 0.85;
+    int n = 5; //pages to print
 
     // set N depending on filename: https://www.w3schools.com/c/ref_string_strcmp.php , 0 if matches
     if (strcmp(filename, "simple.txt") == 0) {
@@ -24,8 +26,7 @@ int main(void) {
         return 1;
     }
     
-    double epsilon = 1e-6;
-    double d = 0.85;
+
 
     // Method 2: CRS method
     printf("\n\nCRS method");
@@ -36,7 +37,6 @@ int main(void) {
     read_graph_from_file2(filename, &N, &ptr_, &idx_, &vals);
 
     // Use parameters from earlier for eps and d
-    int n = 5; //pages to print
     double *scores2 = createArray(N);
     PageRank_iterations2_omp(N, ptr_, idx_, vals, d, epsilon, scores2);
     top_n_webpages_omp(N, scores2, n);
