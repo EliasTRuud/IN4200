@@ -59,8 +59,7 @@ void PageRank_iterations1(int N, double **hyperlink_matrix, double d, double eps
         }
         
         iteration++;
-        // optionally print iteration info
-        printf("iteration %d, diff = %e\n", iteration, diff);
+
     }
     
     // copy final pagerank scores into provided scores array
