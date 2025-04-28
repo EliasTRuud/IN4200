@@ -124,6 +124,8 @@ int main(int nargs, char **args) {
     int n, k, j, i;
     int num_iters, kmax, jmax, imax;
 
+    num_iters = 10;
+    kmax = 5; jmax = 5; imax = 5;
     // Read num_iters, kmax, jmax, and imax from command line
     // ...
 
