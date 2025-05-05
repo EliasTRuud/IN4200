@@ -8,6 +8,10 @@ Run code with openmp:
 gcc-13 -fopenmp test.c -o test  # Use your GCC version
 ./test #run file
 
+Run code with mpi:
+mpicc hello_world.c
+mpirun -np 4 ./a.out
+
 
 Running on fox cluster:
     - Make account
