@@ -119,6 +119,7 @@ void initialize_arrays(int kmax, int jmax, int imax, double ***arr1, double ***a
         }
     }
 }
+
 int main(int nargs, char **args) {
     double ***arr1, ***arr2;
     int n, k, j, i;
